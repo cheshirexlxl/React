@@ -26,9 +26,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public PageInfo<Todos> list(int page, int size) {
+        // ⭐ PageHelper.startPage( 현재 페이지, 페이지당 데이터 수 )
         PageHelper.startPage(page, size);
         List<Todos> list = todoMapper.list();
         PageInfo<Todos> pageInfo = new PageInfo<>(list);
+        // 정렬
+        // 1️⃣ status 오름차순
+        // 2️⃣ seq 오름차순
         pageInfo.getList().sort((t1, t2) -> {
             int statusCompare = t1.getStatus().compareTo(t2.getStatus());
             if (statusCompare != 0) {
