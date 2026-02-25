@@ -10,6 +10,8 @@ const Container = () => {
   const [input, setInput] = useState('')
   const [todoList, setTodoList] = useState([])
   const [loading, setLoading] = useState(true)
+  const [initialPagination, setInitialPagination] = useState(null)  // 초기 페이지 정보
+  const [listKey, setListKey] = useState(0)   // List 컴포넌트를 리셋하기 위한 key
 
   // 데이터 목록 요청
   const getList = () => {
@@ -21,8 +23,10 @@ const Container = () => {
       .then( data => {
         console.log('응답 데이터 : ', data);
         // datalist         : 할 일 목록
-        // datapagination   : 페이지 정보
+        // datapagination   : 페이지
+        //  정보
         setTodoList( data.list )
+        setInitialPagination( data.pagination )
       })
       .catch( error => {
         console.error('error : ', error);
@@ -58,7 +62,10 @@ const Container = () => {
       if( response.ok ) {
         console.log('할 일 등록 성공');        
         // 할 일 목록 요청
-        getList()
+        getList()        
+        // List 컴포넌트 리셋 (key 변경)
+        setListKey( prev => prev + 1 ) 
+
         // 입력 값 비우기
         setInput('')
       }
@@ -180,10 +187,13 @@ const Container = () => {
         <Header />
         <Input input={input} onChange={onChange} onSubmit={onSubmit} />
         <List 
+          key={listKey}
           todoList={todoList} 
           onToggle={onToggle}
           onRemove={onRemove}
           loading={loading}
+          getList={getList}
+          initialPagination={initialPagination}
         />
         <Footer 
           onCompleteAll={onCompleteAll}

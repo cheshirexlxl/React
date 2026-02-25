@@ -264,3 +264,9 @@ body {
   color: #7a9bd4;
   margin: 0;
 }
+
+.page-info {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
