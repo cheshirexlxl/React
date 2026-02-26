@@ -83,7 +83,7 @@ public class FileServiceImpl implements FileService {
         // 파일 삭제
         boolean deleted = deleteFile.delete();
         if ( deleted ) {
-            log.info("파일이 삭제되었습니다: ");   
+            log.info("파일이 삭제되었습니다: "); 
             log.info("- " + filePath);    
         }
         return true;
