@@ -2,6 +2,20 @@ import React, { useEffect, useRef, useState } from 'react'
 import Card from './Card'
 import SkeletonCard from './SkeletonCard'
 import Page from './Page'
+import { throttle } from 'lodash'
+
+// ⚡ 쓰로틀
+// const throttle = (fn, delay) => {
+//   let timer = null
+//   return (...args) => {
+//     if( !timer ) {
+//       timer = setTimeout(() => {
+//         fn(...args)   // 원본 함 수 호출
+//         timer = null  // 타이머 제거
+//       }, delay);
+//     }
+//   }
+// }
 
 const List = ({ todoList, onToggle, onRemove, loading, getList, initialPagination }) => {
 
@@ -97,33 +111,36 @@ const List = ({ todoList, onToggle, onRemove, loading, getList, initialPaginatio
       .catch( error => { console.error() })
   }
 
-  // ✨ 스크롤 이벤트 핸들러
-  const handleScroll = () => {
-
-    const { scrollHeight, scrollTop, clientHeight } = todoListRef.current
-
-    // 이전 스크롤보다 현재 스크롤 위치가 더 크면, 스크롤 아래 ⬇
-    const isScrollDown = scrollTop > prevScrollTop.current
-    // 이전 스크롤 위치 업데이트
-    prevScrollTop.current = scrollTop
-
-    // 스크롤 맨 마지막 도달
-    if( isScrollDown && clientHeight + scrollTop >= scrollHeight - 1 ) {
-      // alert('스크롤 맨 마지막 입니다.')
-
-      const nextPage = currentPageRef.current + 1
-      // 마지막 페이지를 초과하면 요청하지 않음
-      if( lastPageRef.current === null || nextPage <= lastPageRef.current ) {
-        addPage(nextPage)  // 다음 페이지 데이터 추가
-      }
-      if( lastPageRef.current != null && nextPage > lastPageRef.current ) {
-        alert('마지막 페이지입니다.')
-      }
-    }
-  }
-
+  // ⚡ 스크롤 이벤트를 마운팅 될 때 한번만 정의 및 등록
+  // ⚡ 쓰로틀 적용
   useEffect(() => {
     const todoListElement = todoListRef.current
+
+      // ✨ 스크롤 이벤트 핸들러
+      const handleScroll = throttle( () => {
+
+        const { scrollHeight, scrollTop, clientHeight } = todoListRef.current
+
+        // 이전 스크롤보다 현재 스크롤 위치가 더 크면, 스크롤 아래 ⬇
+        const isScrollDown = scrollTop > prevScrollTop.current
+        // 이전 스크롤 위치 업데이트
+        prevScrollTop.current = scrollTop
+
+        // 스크롤 맨 마지막 도달
+        if( isScrollDown && clientHeight + scrollTop >= scrollHeight - 1 ) {
+          // alert('스크롤 맨 마지막 입니다.')
+
+          const nextPage = currentPageRef.current + 1
+          // 마지막 페이지를 초과하면 요청하지 않음
+          if( lastPageRef.current === null || nextPage <= lastPageRef.current ) {
+            addPage(nextPage)  // 다음 페이지 데이터 추가
+          }
+          if( lastPageRef.current != null && nextPage > lastPageRef.current ) {
+            alert('마지막 페이지입니다.')
+          }
+        }
+      } , 200 )
+
     // 스크롤 이벤트 등록
     if( todoListElement ) {
       todoListElement.addEventListener('scroll', handleScroll) 
