@@ -1,16 +1,26 @@
 package com.aloha.board.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.aloha.board.domain.Files;
 import com.aloha.board.mapper.FileMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileServiceImpl implements FileService {
     
     private final FileMapper fileMapper;
+    private final ResourceLoader resourceLoader;    // 자원을 가져오는 객체
 
     @Value("${upload.path}")
     private String uploadPath;      // 업로드 경로
@@ -39,7 +50,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Files select(int no) {
+    public Files select(Long no) {
         return fileMapper.select(no);
     }
 
@@ -90,7 +101,7 @@ public class FileServiceImpl implements FileService {
     }    
 
     @Override
-    public boolean delete(int no) {
+    public boolean delete(Long no) {
         Files file = fileMapper.select(no);         // 파일정보 조회
         delete(file);                               // 1️⃣ 파일 삭제        
         int result = fileMapper.delete(no);         // 2️⃣ DB 데이터 삭제
@@ -107,68 +118,198 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public boolean upload(Files file) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'upload'");
+        boolean result = false;
+        MultipartFile multipartFile = file.getData();
+        // 파일이 없을 때
+        if( multipartFile == null || multipartFile.isEmpty() ) {
+            return result;
+        }
+
+        // 1️⃣ 파일 시스템에 등록 (파일 복사)
+        // - 파일 정보 : 원본파일명, 파일용량, 파일데이터, 파일명, 파일경로
+        String originName = multipartFile.getOriginalFilename();
+        long fileSize = multipartFile.getSize();
+        byte[] fileData = multipartFile.getBytes();
+        String fileName = UUID.randomUUID().toString() + "_" + originName;
+        String filePath = uploadPath + "/" + fileName;
+        File uploadFile = new File(filePath);
+        FileCopyUtils.copy(fileData, uploadFile);      // 파일 복사 (업로드)
+
+        // 2️⃣ DB에 등록
+        file.setOriginName(originName);
+        file.setFileName(fileName);
+        file.setFilePath(filePath);
+        file.setFileSize(fileSize);
+        result = fileMapper.insert(file) > 0; 
+        return result;
     }
 
     @Override
     public int upload(List<Files> fileList) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'upload'");
+        int result = 0;
+        if( fileList == null || fileList.isEmpty() ) {
+            return result;
+        }
+        for (Files file : fileList) {
+            result += (upload(file) ? 1 : 0);
+        }
+        return result;
     }
 
     @Override
     public boolean download(String id, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'download'");
+        Files file = fileMapper.selectById(id);
+
+        // 파일이 없으면
+        if ( file == null ) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return false;
+        }
+
+        // 파일 입력
+        String fileName = file.getFileName();
+        String filePath = file.getFilePath();
+        File downloadFile = new File(filePath);
+        FileInputStream fis = new FileInputStream(downloadFile);
+
+        // 파일 출력
+        ServletOutputStream sos = response.getOutputStream();
+
+        // 파일 다운로드를 위한 응답 헤더 세팅
+        // - Content-Type           : application/octet-stream       
+        // - Content-Disposition    : attachment; filename="파일명.확장자"
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setHeader("Content-Disposition", 
+                          "attachment; filename=\"" + fileName + "\"");
+
+        // 다운로드
+        boolean result = FileCopyUtils.copy(fis, sos) > 0;
+        fis.close();
+        sos.close();
+        return result;
     }
 
     @Override
     public List<Files> listByParent(Files file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listByParent'");
+        return fileMapper.listByParent(file);
     }
 
     @Override
-    public int deleteByParent(Files file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteByParent'");
+    public int deleteByParent(Files file) {       
+        List<Files> fileList = fileMapper.listByParent(file);
+        
+        // 파일 삭제
+        for (Files deleteFile : fileList) {
+            delete(deleteFile);
+        }
+
+        // DB 삭제
+        return fileMapper.deleteByParent(file);
     }
 
+    //noList : "1,2,3"
     @Override
     public int deleteFiles(String noList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFiles'");
+        if( noList == null || noList.isEmpty() ) return 0;
+
+        int count = 0;
+        String[] nos = noList.split(",");
+        for (String noStr : nos) {           
+            Long no = Long.parseLong(noStr);
+            count += ( delete(no) ? 1 : 0 );
+           
+        }
+        log.info("파일 " + count + "개를 삭제 하였습니다.");
+        return count;
     }
 
     @Override
     public int deleteFilesById(String idList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFilesById'");
+        if( idList == null || idList.isEmpty() ) return 0;
+
+        int count = 0;
+        String[] ids = idList.split(",");
+        for (String id : ids) {           
+            count += ( deleteById(id) ? 1 : 0 );
+           
+        }
+        log.info("파일 " + count + "개를 삭제 하였습니다.");
+        return count;
     }
 
     @Override
-    public int deleteFiles(List<Long> noList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFiles'");
+    public int deleteFileList(List<Long> noList) {
+        if( noList == null || noList.isEmpty() ) return 0;
+        
+        for (Long no : noList) {      
+            Files file = select(no.longValue());     
+            delete(file);           
+        }
+
+        int count = fileMapper.deleteFileList(noList);
+        log.info("파일 " + count + "개를 삭제 하였습니다.");
+        return count;
     }
 
     @Override
-    public int deleteFilesById(List<String> idList) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFilesById'");
+    public int deleteFileListById(List<String> idList) {
+        if( idList == null || idList.isEmpty() ) return 0;
+        
+        for (String id : idList) {      
+            Files file = selectById(id);     
+            delete(file);           
+        }
+
+        int count = fileMapper.deleteFileListById(idList);
+        log.info("파일 " + count + "개를 삭제 하였습니다.");
+        return count;
     }
 
     @Override
     public Files selectByType(Files file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectByType'");
+        return fileMapper.selectByType(file);
     }
 
     @Override
     public List<Files> listByType(Files file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listByType'");
+        return fileMapper.listByType(file);
+    }
+
+    @Override
+    public boolean thumbnail(String id, HttpServletResponse response) throws Exception {
+        Files file = selectById(id);
+        String filePath = file != null ? file.getFilePath() : null;
+
+        File imgFile;
+        // 파일 경로가 null 또는 파일이 존재하지 않는 경우 ➡ no-image
+        // org.springframework.core.io.resource
+        Resource resource = resourceLoader.getResource("classpath:/static/img/no-image.png");
+        if( filePath == null || !(imgFile = new File(filePath)).exists() ) {
+            // no-image.png (기본 이미지) 적용
+            imgFile = resource.getFile();
+            filePath = imgFile.getPath();
+        }
+
+        // 확장자
+        // C:/upload/2026.02.06-강아지.png
+        String ext = filePath.substring(filePath.lastIndexOf(".") + 1);
+        String mimeType = MimeTypeUtils.parseMimeType("image/" + ext).toString();
+        MediaType mType = MediaType.valueOf(mimeType);
+
+        if( mType == null ) {
+            // 이미지 타입이 아닌 경우
+            response.setContentType(MediaType.IMAGE_PNG_VALUE);
+            imgFile = resource.getFile();
+        } else {
+            // 이미지 타입
+            response.setContentType(mType.toString());
+        }
+
+        FileInputStream fis = new FileInputStream(imgFile);     // 파일 입력
+        ServletOutputStream sos = response.getOutputStream();   // 파일 출력
+        int result = FileCopyUtils.copy(fis, sos);              // 파일 전송
+        return result > 0;
     }
 
 }

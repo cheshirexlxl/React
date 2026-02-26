@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="content" column="content"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
+        <association property="file" column="id" javaType="Files" select="selectMainFile"></association>
+        <collection property="fileList" column="id" ofType="Files" select="fileList"></collection>
     </resultMap>
 
     <select id="list" resultMap="BoardMap">
@@ -65,5 +67,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         DELETE FROM boards WHERE id = #{id}
     </delete>
 
+    <select id="selectMainFile" resultType="Files">
+        SELECT * FROM files 
+        WHERE p_id = #{id} AND type = 'MAIN' 
+        LIMIT 0, 1
+    </select>
+
+    <select id="fileList" resultType="Files">
+        SELECT * FROM files 
+        WHERE p_id = #{id} AND type = 'SUB'
+    </select>
 
 </mapper>

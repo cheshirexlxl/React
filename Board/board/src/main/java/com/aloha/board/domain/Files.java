@@ -1,6 +1,7 @@
 package com.aloha.board.domain;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,8 +14,6 @@ public class Files {
     private Long no;
     private String id;
     private String pId;
-    private String pTable;
-    private Long pNo;
     private String fileName;
     private String originName;
     private String filePath;
@@ -29,6 +28,6 @@ public class Files {
     MultipartFile data;
 
     public Files() {
-        this.id = java.util.UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
     }
 }
