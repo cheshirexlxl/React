@@ -32,3 +32,26 @@ npm install -D tailwindcss @tailwindcss/vite
 ```
 - index.css
 @import "tailwindcss";
+
+
+# 프록시(Proxy) 설정
+vite.config.js 파일의 server.proxy 옵션으로 설정
+```
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.removeHeader('Origin')
+          })
+        }
+      }
+    }
+  }
+})
+```

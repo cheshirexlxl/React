@@ -19,11 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="select" resultType="Files">
-        SELECT FROM files WHERE no = #{no}
+        SELECT * FROM files WHERE no = #{no}
     </select>
 
     <select id="selectById" resultType="Files">
-        SELECT FROM files WHERE id = #{id}
+        SELECT * FROM files WHERE id = #{id}
     </select>
 
     <insert id="insert" parameterType="Files" useGeneratedKeys="true" keyProperty="no">
