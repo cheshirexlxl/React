@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -19,7 +21,9 @@ public class Boards {
     private Date updatedAt;
 
     // 파일
+    @JsonIgnore     // 객체 -> JSON 직렬화 제외
     private MultipartFile mainFile;
+    @JsonIgnore     // 객체 -> JSON 직렬화 제외
     private List<MultipartFile> files;
 
     // 파일 정보

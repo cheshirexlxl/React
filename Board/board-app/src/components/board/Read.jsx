@@ -5,10 +5,12 @@ import { Link, useParams } from 'react-router-dom'
 import React from 'react'
 import useBoard from '../../hooks/useBoard'
 import FileItem from '../common/FileItem'
+import { useFileDownload } from '../../hooks/useFileDownload'
 
 const Read = () => {
   const { id } = useParams()
   const { board, fileList, isLoading, isError } = useBoard(id)
+  const { download } = useFileDownload()
 
   return (
     <div>
@@ -45,6 +47,7 @@ const Read = () => {
                                 <FileItem 
                                     Key={file.id}
                                     file={file}
+                                    onDownload={download}
                                 />
                             ))
                         }
@@ -65,7 +68,7 @@ const Read = () => {
             </Link>
 
             <Link 
-                to="/boards/update/:id"
+                to={`/boards/update/${id}`}
                 className='inline-flex items-center gap-1.5 px-5 py-2 text-sm font-medium text-white bg-blue-500
                            rounded-lg hover:bg-blue-600 transition-colors'  
             >
