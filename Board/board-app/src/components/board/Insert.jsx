@@ -239,6 +239,7 @@ const Insert = () => {
                 type='button'
                 className='px-4 py-2 w-full text-sm font-medium text-gray-700 bg-white border border-gray-200
                            rounded-lg hover:bg-gray-50 transition-colors cursor-pointer'
+                onClick={() => navigate('/boards')}
             >
                 취소
             </button>

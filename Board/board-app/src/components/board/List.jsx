@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useBoards } from '../../hooks/useBoards'
 import Pagination from '../common/Pagination'
+import { formatDate } from '../../utiles/format'
 
 const List = () => {
   // http://localhost:5173/boards?page=1&size=10
@@ -65,7 +66,18 @@ const List = () => {
                                  <tr className='hover:bg-gray-50 transition-colors'>
                                     <td className="px-4 py-3 text-gray-500">{board.no}</td>
                                     <td className="px-4 py-3">
-                                        <div className="w-14 h-9 rounded bg-gray-100"></div>
+                                        {
+                                            board.file ? (
+                                                <img
+                                                    src={`/api/files/img/${board.file.id}`}
+                                                    alt={board.file.originName}
+                                                    className='w-full h-full object-cover'
+                                                    onError={(e) => {e.target.style.display = 'none'}}
+                                                />
+                                            ) : (
+                                                <div className="w-14 h-9 rounded bg-gray-100"></div>
+                                            )
+                                        }                                        
                                     </td>
                                     <td className="px-4 py-3">
                                         <Link 
@@ -76,7 +88,9 @@ const List = () => {
                                         </Link>
                                     </td>
                                     <td className="px-4 py-3 text-gray-600">{board.writer}</td>
-                                    <td className="px-4 py-3 text-gray-400 text-xs">{board.createdAt}</td>                        
+                                    <td className="px-4 py-3 text-gray-400 text-xs">
+                                        { formatDate( board.createdAt )}
+                                    </td>                        
                                 </tr>
                             ))
                         )

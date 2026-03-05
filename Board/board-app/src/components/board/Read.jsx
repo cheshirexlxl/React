@@ -6,6 +6,7 @@ import React from 'react'
 import useBoard from '../../hooks/useBoard'
 import FileItem from '../common/FileItem'
 import { useFileDownload } from '../../hooks/useFileDownload'
+import { formatDate } from '../../utiles/format'
 
 const Read = () => {
   const { id } = useParams()
@@ -20,7 +21,7 @@ const Read = () => {
             <div className="flex items-center gap-3 text-sm text-gray-400">
                 <span>{board?.writer}</span>
                 <span>.</span>
-                <span>{board?.createdAt}</span>
+                <span>{ formatDate(board?.createdAt) }</span>
             </div>
         </div>
 

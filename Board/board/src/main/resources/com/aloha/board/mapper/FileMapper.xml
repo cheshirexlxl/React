@@ -70,11 +70,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="delete">
-        DELETE FROM files no = #{no}
+        DELETE FROM files WHERE no = #{no}
     </delete>
 
     <delete id="deleteById">
-        DELETE FROM files id = #{id}
+        DELETE FROM files WHERE id = #{id}
     </delete>
 
     <!-- 부모 기준 파일 목록 삭제 -->
