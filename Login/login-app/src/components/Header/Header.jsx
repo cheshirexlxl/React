@@ -1,8 +1,12 @@
 import React from 'react'
 import './Header.css'
 import { Link } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 
 const Header = () => {
+  
+  const { isLogin, logout, hasRole } = useAuth()
+
   return (
     <header>
       <div className="logo">
@@ -12,11 +16,21 @@ const Header = () => {
       </div>
       <div className="util">
         <ul>
-            <>
-                <li><Link to="/login">로그인</Link></li>
-                <li><Link to="/join">회원가입</Link></li>
-                <li><Link to="/about">소개</Link></li>
-            </>
+            { 
+              isLogin 
+              ?
+              <>
+                <li><Link to="/user">마이 페이지</Link></li>
+                { hasRole('ROLE_ADMIN') && <li><Link to="/admin">관리자</Link></li> }
+                <li><button className='btn' onClick={ () => logout() }>로그아웃</button></li>
+              </>
+              :
+              <>
+                  <li><Link to="/login">로그인</Link></li>
+                  <li><Link to="/join">회원가입</Link></li>
+                  <li><Link to="/about">소개</Link></li>
+              </>
+            }
         </ul>
       </div>
     </header>

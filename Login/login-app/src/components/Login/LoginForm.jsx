@@ -1,11 +1,24 @@
 import React from 'react'
 import './LoginForm.css'
+import useAuth from '../../hooks/useAuth'
 
 const LoginForm = () => {
+
+  const { login } = useAuth() 
+
+  const onLogin = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const username = form.username.value
+    const password = form.password.value
+
+    login( username, password )
+  }
+
   return (
     <div className="form">
         <h2 className="login-title">로그인</h2>
-        <form className="login-form">
+        <form className="login-form" onSubmit={ (e) => onLogin(e) }>
             {/* username */}
             <div>
                 <label htmlFor="username">username</label>
