@@ -1,0 +1,14 @@
+package com.aloha.minihome.security.contants;
+
+public class SecurityConstants {
+
+    // JWT 토큰 헤더 이름
+    public static final String TOKEN_HEADER = "Authorization";
+    // JWT 토큰 접두사
+    public static final String TOKEN_PREFIX = "Bearer ";
+    // JWT 토큰 타입
+    public static final String TOKEN_TYPE = "JWT";
+    // JWT 만료 시간 (24시간)
+    public static final long EXPIRATION_TIME = 86400000L;
+    
+}

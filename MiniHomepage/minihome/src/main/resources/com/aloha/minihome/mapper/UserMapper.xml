@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aloha.minihome.mapper.UserMapper">
+
+    <resultMap id="userMap" type="Users">
+        <id     property="id"           column="id" />
+        <result property="username"     column="username" />
+        <result property="password"     column="password" />
+        <result property="nickname"     column="nickname" />
+        <result property="bio"          column="bio" />
+        <result property="profileImage" column="profile_image" />
+        <result property="birthDate"    column="birth_date" />
+        <result property="email"        column="email" />
+        <result property="createdAt"    column="created_at" />
+        <result property="updatedAt"    column="updated_at" />
+    </resultMap>
+
+    <!-- 회원가입 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, nickname, bio, profile_image, birth_date, email)
+        VALUES (#{username}, #{password}, #{nickname}, #{bio}, #{profileImage}, #{birthDate}, #{email})
+    </insert>
+
+    <!-- username으로 조회 (로그인, 중복체크) -->
+    <select id="select" resultMap="userMap">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <!-- id로 조회 (프로필 조회) -->
+    <select id="selectById" resultMap="userMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <!-- 프로필 수정 -->
+    <update id="update">
+        UPDATE users
+        SET nickname      = #{nickname},
+            bio           = #{bio},
+            profile_image = #{profileImage},
+            birth_date    = #{birthDate},
+            email         = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="delete">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+</mapper>

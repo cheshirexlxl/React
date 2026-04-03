@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PasswordGenerator",
+            "request": "launch",
+            "mainClass": "com.aloha.minihome.controller.PasswordGenerator",
+            "projectName": "minihome"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-TodoApplication<todo>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -27,6 +34,16 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.aloha.login.LoginApplication",
             "projectName": "login",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MinihomeApplication<minihome>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.minihome.MinihomeApplication",
+            "projectName": "minihome",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }

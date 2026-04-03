@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aloha.minihome.mapper.RoomSettingMapper">
+
+    <resultMap id="roomSettingMap" type="RoomSetting">
+        <id     property="id"        column="id" />
+        <result property="userId"    column="user_id" />
+        <result property="bgColor"   column="bg_color" />
+        <result property="bgImage"   column="bg_image" />
+        <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <!-- 룸 설정 조회 -->
+    <select id="selectByUserId" resultMap="roomSettingMap">
+        SELECT * FROM room_setting WHERE user_id = #{userId}
+    </select>
+
+    <!-- 룸 설정 생성 (최초 1회) -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO room_setting (user_id, bg_color, bg_image)
+        VALUES (#{userId}, #{bgColor}, #{bgImage})
+    </insert>
+
+    <!-- 룸 설정 수정 -->
+    <update id="update">
+        UPDATE room_setting
+        SET bg_color = #{bgColor},
+            bg_image = #{bgImage}
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>
