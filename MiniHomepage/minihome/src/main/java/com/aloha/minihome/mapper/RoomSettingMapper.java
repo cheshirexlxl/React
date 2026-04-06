@@ -8,11 +8,11 @@ import com.aloha.minihome.domain.RoomSetting;
 public interface RoomSettingMapper {
 
     // 룸 설정 조회 (유저 기준)
-    RoomSetting selectByUserId(Long userId);
+    public RoomSetting selectByUserId(Long userId) throws Exception;
 
     // 룸 설정 생성 (최초 1회)
-    int insert(RoomSetting roomSetting);
+    public int insert(RoomSetting roomSetting) throws Exception;
 
     // 룸 설정 수정
-    int update(RoomSetting roomSetting);
+    public int update(RoomSetting roomSetting) throws Exception;
 }

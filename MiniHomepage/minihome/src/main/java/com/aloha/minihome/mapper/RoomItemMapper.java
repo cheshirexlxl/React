@@ -10,20 +10,20 @@ import com.aloha.minihome.domain.RoomItem;
 public interface RoomItemMapper {
 
     // 룸 아이템 목록 조회 (홈 주인 기준)
-    List<RoomItem> selectByUserId(Long userId);
+    public List<RoomItem> selectByUserId(Long userId) throws Exception;
 
     // 룸 아이템 단건 조회
-    RoomItem selectById(Long id);
+    public RoomItem selectById(Long id) throws Exception;
 
     // 아이템 배치 추가
-    int insert(RoomItem roomItem);
+    public int insert(RoomItem roomItem) throws Exception;
 
     // 아이템 위치 수정
-    int update(RoomItem roomItem);
+    public int update(RoomItem roomItem) throws Exception;
 
     // 아이템 삭제
-    int delete(Long id);
+    public int delete(Long id) throws Exception;
 
     // 유저의 모든 아이템 삭제
-    int deleteByUserId(Long userId);
+    public int deleteByUserId(Long userId) throws Exception;
 }

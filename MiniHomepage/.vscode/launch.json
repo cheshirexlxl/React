@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MinihomeApplication<minihome>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.minihome.MinihomeApplication",
+            "projectName": "minihome",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=49859 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=minihome"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PasswordGenerator<minihome>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.minihome.controller.PasswordGenerator",
+            "projectName": "minihome",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

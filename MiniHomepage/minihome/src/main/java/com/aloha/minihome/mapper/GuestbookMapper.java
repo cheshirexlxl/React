@@ -10,14 +10,14 @@ import com.aloha.minihome.domain.Guestbook;
 public interface GuestbookMapper {
 
     // 방명록 목록 조회 (홈 주인 기준)
-    List<Guestbook> selectByOwnerId(Long ownerId);
+    public List<Guestbook> selectByOwnerId(Long ownerId) throws Exception;
 
     // 방명록 단건 조회
-    Guestbook selectById(Long id);
+    public Guestbook selectById(Long id) throws Exception;
 
     // 방명록 작성
-    int insert(Guestbook guestbook);
+    public int insert(Guestbook guestbook) throws Exception;
 
     // 방명록 삭제
-    int delete(Long id);
+    public int delete(Long id) throws Exception;
 }

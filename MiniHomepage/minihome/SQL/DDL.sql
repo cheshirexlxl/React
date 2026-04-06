@@ -75,3 +75,15 @@ CREATE TABLE IF NOT EXISTS visitor_count (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- 회원 권한
+CREATE TABLE IF NOT EXISTS user_auth (
+    id          BIGINT      NOT NULL AUTO_INCREMENT,
+    username    VARCHAR(50) NOT NULL,
+    auth        VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER',
+    PRIMARY KEY (id),
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+);
+
+-- 기본 권한 삽입
+INSERT INTO user_auth (username, auth) VALUES ('admin', 'ROLE_ADMIN');
+

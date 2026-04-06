@@ -8,7 +8,7 @@ public class SecurityConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
     // JWT 토큰 타입
     public static final String TOKEN_TYPE = "JWT";
-    // JWT 만료 시간 (24시간)
-    public static final long EXPIRATION_TIME = 86400000L;
+    
+    public static final String LOGIN_URL = "/login";
     
 }

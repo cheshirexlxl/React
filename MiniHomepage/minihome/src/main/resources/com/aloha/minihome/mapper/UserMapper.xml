@@ -16,12 +16,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="email"        column="email" />
         <result property="createdAt"    column="created_at" />
         <result property="updatedAt"    column="updated_at" />
+
+        <collection property="authList"
+                  select="authList"
+                  column="username"
+                  ofType="UserAuth"></collection>
+    </resultMap>
+
+    <resultMap id="authMap" type="UserAuth">
+        <id     property="id"       column="id" />
+        <result property="username" column="username" />
+        <result property="auth"     column="auth" />
     </resultMap>
 
     <!-- 회원가입 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (username, password, nickname, bio, profile_image, birth_date, email)
         VALUES (#{username}, #{password}, #{nickname}, #{bio}, #{profileImage}, #{birthDate}, #{email})
+    </insert>
+
+    <!-- 권한 등록 -->
+    <insert id="insertAuth">
+        INSERT INTO user_auth ( username, auth )
+        VALUES ( #{username}, #{auth} )
     </insert>
 
     <!-- username으로 조회 (로그인, 중복체크) -->
@@ -34,6 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM users WHERE id = #{id}
     </select>
 
+    <!-- 권한 목록 조회 -->
+    <select id="authList" resultMap="authMap">
+        SELECT *
+        FROM user_auth
+        WHERE username = #{username}
+    </select>    
+
     <!-- 프로필 수정 -->
     <update id="update">
         UPDATE users
@@ -45,9 +69,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE id = #{id}
     </update>
 
+    <!-- [개선] 회원 권한 삭제 (cascade) -->
+    <delete id="deleteAuth">
+        DELETE FROM user_auth
+         WHERE username = #{username}
+    </delete>
+
     <!-- 회원 탈퇴 -->
     <delete id="delete">
-        DELETE FROM users WHERE id = #{id}
+        DELETE FROM users WHERE username = #{username}
     </delete>
 
 </mapper>

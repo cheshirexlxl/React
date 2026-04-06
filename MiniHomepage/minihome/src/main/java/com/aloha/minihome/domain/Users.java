@@ -1,7 +1,8 @@
 package com.aloha.minihome.domain;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -12,8 +13,9 @@ public class Users {
     private String nickname;
     private String bio;
     private String profileImage;
-    private LocalDate birthDate;
+    private Date birthDate;
     private String email;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Date createdAt;
+    private Date updatedAt;
+    private List<UserAuth> authList;
 }

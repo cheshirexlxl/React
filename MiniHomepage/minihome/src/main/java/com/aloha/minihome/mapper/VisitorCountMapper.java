@@ -10,14 +10,14 @@ import com.aloha.minihome.domain.VisitorCount;
 public interface VisitorCountMapper {
 
     // 특정 날짜 방문자 수 조회
-    VisitorCount selectByUserIdAndDate(Long userId, LocalDate visitDate);
+    public VisitorCount selectByUserIdAndDate(Long userId, LocalDate visitDate) throws Exception;
 
     // 총 방문자 수 조회
-    int selectSumByUserId(Long userId);
+    public int selectSumByUserId(Long userId) throws Exception;
 
     // 오늘 방문자 수 추가 (최초)
-    int insert(VisitorCount visitorCount);
+    public int insert(VisitorCount visitorCount) throws Exception;
 
     // 오늘 방문자 수 증가
-    int increment(Long userId, LocalDate visitDate);
+    public int increment(Long userId, LocalDate visitDate) throws Exception;
 }
