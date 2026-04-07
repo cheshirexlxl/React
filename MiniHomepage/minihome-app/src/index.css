@@ -1,1 +1,24 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #4F46E5;
+    --secondary-color: #6B7280;
+    --background-color: #ecf1f8;
+    --dark-color: #101828;
+    --white-color: #ffffff;
+    --text-color: #111827;
+    --font-base: 'Noto Sans KR', sans-serif;
+    --container-width: 72rem;
+    --container-width-sm: 48rem;
+    --member-width: 28rem;
+    --max-width: 100%;
+}
+body {
+  font-family: var(--font-base);
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+button {
+    cursor: pointer;
+}

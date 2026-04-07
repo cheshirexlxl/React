@@ -57,16 +57,19 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/login").permitAll()             // 로그인
             .requestMatchers(HttpMethod.POST, "/users").permitAll()             // 회원가입
             .requestMatchers(HttpMethod.GET,  "/users/profile").permitAll()
-            .requestMatchers(HttpMethod.GET,  "/guestbook").permitAll()
+            .requestMatchers(HttpMethod.GET,  "/guestbook/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/guestbook").permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/guestbook/**").permitAll()
             .requestMatchers(HttpMethod.GET,  "/room").permitAll()
             .requestMatchers(HttpMethod.GET,  "/visitor").permitAll()
             .requestMatchers(HttpMethod.POST, "/visitor").permitAll()
+            .requestMatchers(HttpMethod.GET,  "/files/**").permitAll()          // 업로드 파일 조회
 
             .requestMatchers(HttpMethod.GET, "/users/profile").authenticated()  // 회원 정보
             .requestMatchers(HttpMethod.PUT, "/users").authenticated()          // 회원 수정
             .requestMatchers(HttpMethod.DELETE, "/users/**").authenticated()    // 회원 삭제
             .requestMatchers(HttpMethod.PUT,    "/room/**").authenticated()
+            .requestMatchers(HttpMethod.POST,   "/files/upload").authenticated() // 파일 업로드
             .anyRequest().permitAll()
         );
         

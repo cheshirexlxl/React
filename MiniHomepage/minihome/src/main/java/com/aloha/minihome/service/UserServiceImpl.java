@@ -58,10 +58,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(Users user) throws Exception {
-        // 비밀번호 암호화
+        // 비밀번호 입력한 경우에만 암호화하여 업데이트
         String password = user.getPassword();
-        String encodedPassword = passwordEncoder.encode(password);
-        user.setPassword(encodedPassword);
+        if (password != null && !password.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(password));
+        } else {
+            user.setPassword(null); // null이면 mapper에서 UPDATE 제외
+        }
         int result = userMapper.update(user);
         return result > 0;
     }

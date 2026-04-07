@@ -61,18 +61,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 프로필 수정 -->
     <update id="update">
         UPDATE users
-        SET nickname      = #{nickname},
-            bio           = #{bio},
-            profile_image = #{profileImage},
-            birth_date    = #{birthDate},
-            email         = #{email}
-        WHERE id = #{id}
+            <set>
+                <if test="nickname != null">nickname = #{nickname},</if>
+                <if test="password != null">password = #{password},</if>
+                <if test="bio != null">bio = #{bio},</if>
+                <if test="profileImage != null">profile_image = #{profileImage},</if>
+                <if test="birthDate != null">birth_date = #{birthDate},</if>
+                <if test="email != null">email = #{email},</if>
+                updated_at = now()
+            </set>
+        WHERE username = #{username}
     </update>
 
     <!-- [개선] 회원 권한 삭제 (cascade) -->
     <delete id="deleteAuth">
         DELETE FROM user_auth
-         WHERE username = #{username}
+        WHERE username = #{username}
     </delete>
 
     <!-- 회원 탈퇴 -->

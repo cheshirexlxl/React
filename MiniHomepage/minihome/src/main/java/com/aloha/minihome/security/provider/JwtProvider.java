@@ -55,7 +55,7 @@ public class JwtProvider {
                 .expiration( new Date( System.currentTimeMillis() + exp ) )
                 .claim("id", id)
                 .claim("username", username)
-                .claim("roles", roles)
+                .claim("rol", roles)
                 .compact();
 
         return jwt;
@@ -111,6 +111,10 @@ public class JwtProvider {
                 if( userInfo != null ) {
                     user.setNickname(userInfo.getNickname());
                     user.setEmail(userInfo.getEmail());
+                    user.setBio(userInfo.getBio());
+                    user.setBirthDate(userInfo.getBirthDate());
+                    user.setProfileImage(userInfo.getProfileImage());
+                    user.setCreatedAt(userInfo.getCreatedAt());
                 }
             } catch (Exception e) {
                 log.error(e.getMessage());

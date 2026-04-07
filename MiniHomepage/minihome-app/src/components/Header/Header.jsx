@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 
 const Header = () => {
@@ -7,29 +7,32 @@ const Header = () => {
   const { isLogin, logout, hasRole } = useAuth()
 
   return (
-    <header>
-        <h1>미니홈피</h1>
-        <div className="util">
-        <ul>
-            <li><Link to="/">홈</Link></li>
-            <li><Link to="/profile">프로필</Link></li>
-            <li><Link to="/guestbook">방명록</Link></li>
-            { 
-              isLogin 
-              ?
-              <>
-                { hasRole('ROLE_ADMIN') && <li><Link to="/room">방 꾸미기</Link></li> }
-                <li><Link to="/user">프로필 수정</Link></li>
-                <li><button className='btn' onClick={ () => logout() }>로그아웃</button></li>
-              </>
-              :
-              <>
-                <li><Link to="/login">로그인</Link></li>
-                <li><Link to="/join">회원가입</Link></li>
-              </>
-            }            
-        </ul>
-      </div>
+    <header className="bg-white border-b border-gray-200 py-4">
+        <div className='container flex items-center justify-between'>
+          <Link to="/" className="text-xl font-semibold text-gray-800 tracking-tight">
+            MINI HOMPY
+          </Link>
+          <div className="util">
+            <ul className='flex gap-2'>
+                <li><NavLink to="/" end>홈</NavLink></li>
+                <li><NavLink to="/profile">프로필</NavLink></li>
+                <li><NavLink to="/guestbook">방명록</NavLink></li>
+                { 
+                  isLogin 
+                  ?
+                  <>
+                    { hasRole('ROLE_ADMIN') && <li><NavLink to="/room">방 꾸미기</NavLink></li> }
+                    <li><NavLink to="/user">프로필 수정</NavLink></li>
+                    <li><Link onClick={ () => logout() }>로그아웃</Link></li>
+                  </>
+                  :
+                  <>
+                    <li><NavLink to="/login">로그인</NavLink></li>                    
+                  </>
+                }            
+            </ul>
+          </div>          
+        </div>
     </header>
   )
 }

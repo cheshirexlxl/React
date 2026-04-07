@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import './css/style.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LoginContextProvider from './contexts/LoginContextProvider'
 import ProtectedRoute from './components/common/ProtectedRoute'
@@ -30,8 +31,16 @@ function App() {
               <User />
             </ProtectedRoute>
           } />
-          <Route path="/login" element={<Login />} />
-          <Route path='/join' element={<Join />} />
+          <Route path="/login" element={
+            <ProtectedRoute onlyGuest>
+              <Login />
+            </ProtectedRoute>
+          } />
+          <Route path='/join' element={
+            <ProtectedRoute onlyGuest>
+              <Join />
+            </ProtectedRoute>
+          } />
         </Routes>
       </LoginContextProvider>
     </BrowserRouter>

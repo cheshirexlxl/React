@@ -14,11 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createdAt" column="created_at" />
     </resultMap>
 
-    <!-- 방명록 목록 조회 (홈 주인 기준, 최신순) -->
+    <!-- 방명록 목록 조회 (홈 주인 기준, 최신순, 페이징) -->
     <select id="selectByOwnerId" resultMap="guestbookMap">
         SELECT * FROM guestbook
         WHERE owner_id = #{ownerId}
         ORDER BY created_at DESC
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
     <!-- 방명록 단건 조회 -->
@@ -32,9 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         VALUES (#{ownerId}, #{nickname}, #{password}, #{content})
     </insert>
 
-    <!-- 방명록 삭제 -->
+    <!-- 방명록 삭제 (비밀번호 검증) -->
     <delete id="delete">
-        DELETE FROM guestbook WHERE id = #{id}
+        DELETE FROM guestbook WHERE id = #{id} AND password = #{password}
     </delete>
 
 </mapper>

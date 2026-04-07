@@ -111,7 +111,7 @@ const LoginContextProvider = ({ children }) => {
   }, [autoLogin])
 
   return (
-    <LoginContext.Provider value={{ isLoading, isLogin, userInfo, roles, login, hasRole, hasAnyRole, logout }}>
+    <LoginContext.Provider value={{ isLoading, isLogin, userInfo, roles, login, loginSetting, hasRole, hasAnyRole, logout }}>
       {children}
     </LoginContext.Provider>
   )

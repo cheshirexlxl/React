@@ -1,0 +1,60 @@
+.container {
+    width: var(--container-width);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+main.container {
+    padding: 2rem 1rem;
+}
+.container-sm {
+    width: var(--container-width-sm);
+    max-width: var(--max-width);
+    margin: 0 auto;   
+}
+.container-member {
+    width: var(--member-width);
+    max-width: var(--max-width);
+    margin: 0 auto;   
+}
+
+header .util li a {
+    display: block;
+    padding: 0.5rem 1rem;    
+    border-radius: 0.5rem;
+    font-size: 0.938rem;
+    font-weight: 500;
+    color: oklch(37.3% 0.034 259.733);
+
+}
+header .util li a:hover {
+    background-color: oklch(98.5% 0.002 247.839);    
+}
+header .util li a.active {
+    color: white;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+.btn-outline-primary {
+    background-color: var(--white-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+.btn-outline-dark {
+    background-color: var(--white-color);
+    border: 1px solid var(--dark-color);
+    color: var(--dark-color);
+}
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+.btn-outline-dark:hover {
+    background-color: var(--dark-color);
+    color: var(--white-color);
+}
