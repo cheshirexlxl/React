@@ -14,12 +14,13 @@ const Join = () => {
             const response = await auth.join(form)
             if (response.status === 200) {
                 Swal.alert('회원 가입 성공', '로그인 화면으로 이동합니다.', 'success', 
-                    () => navigate('/login')
+                    () => navigate(`/${form.username}/login`)
                 )
             }
         } catch (error) {
             console.error('회원가입 중 에러가 발생하였습니다.', error)
-            Swal.alert('회원가입 실패', '회원가입에 실패하였습니다.', 'error')
+            const msg = error?.response?.data || '회원가입에 실패하였습니다.'
+            Swal.alert('회원가입 실패', msg, 'error')
         }
     }
 

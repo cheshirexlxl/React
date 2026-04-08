@@ -1,0 +1,61 @@
+/* ── SweetAlert2 custom theme ── */
+.swal2-popup {
+  border-radius: 20px !important;
+  padding: 1.6rem 2rem 1.6rem !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.14) !important;
+  font-family: inherit !important;
+  max-width: 400px !important;
+}
+
+.swal2-icon {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  margin-top: 1rem !important;
+  font-size: 0.7rem !important;
+}
+
+/* 아이콘 색상 — success (초록) */
+.swal2-icon.swal2-success { border-color: var(--primary-color) !important; color: var(--primary-color) !important;}
+.swal2-icon.swal2-success .swal2-success-ring { background-color: var(--gray-color) !important; opacity: 0.3; }
+.swal2-icon.swal2-success [class^='swal2-success-line'] { background-color: var(--primary-color) !important; }
+
+/* 아이콘 색상 — error (빨강) */
+.swal2-icon.swal2-error { border-color: #ffa7a7 !important; color: #ef4444 !important; }
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] { background-color: #ef4444 !important; }
+
+/* 아이콘 색상 — warning (주황) */
+.swal2-icon.swal2-warning { border-color: #ffceac !important; color: #f97316 !important; }
+
+/* 아이콘 색상 — info (파랑) */
+.swal2-icon.swal2-info { border-color: #3b82f6 !important; color: #3b82f6 !important; }
+
+/* 아이콘 색상 — question (보라) */
+.swal2-icon.swal2-question { border-color: #8b5cf6 !important; color: #8b5cf6 !important; }
+
+.swal2-title {
+  font-size: 1.375rem !important;
+  font-weight: 700 !important;
+  color: var(--text-color);
+  margin-bottom: 0.4rem !important;
+}
+
+.swal2-html-container {
+  font-size: 0.9rem !important;
+  color: var(--secondary-color) !important;
+  line-height: 1.6 !important;
+}
+
+button.swal2-styled {
+    padding: 0.55rem 1.6rem !important;
+    border-radius: 6px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    transition: all 0.15s;
+}
+.swal2-cancel {
+  color: var(--secondary-color) !important;
+}
+button.swal2-styled:hover {
+    background-color: var(--dark-color) !important;
+    color: var(--white-color) !important;
+}

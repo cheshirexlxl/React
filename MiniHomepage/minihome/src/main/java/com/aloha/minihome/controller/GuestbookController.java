@@ -31,9 +31,9 @@ public class GuestbookController {
     // 방명록 목록 조회 (페이징)
     @GetMapping("/{ownerId}")
     public ResponseEntity<?> list(
-        @PathVariable Long ownerId,
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size
+        @PathVariable("ownerId") Long ownerId,
+        @RequestParam(value = "page", defaultValue = "1") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         try {
             int offset = (page - 1) * size;
@@ -62,7 +62,7 @@ public class GuestbookController {
 
     // 방명록 삭제 (비밀번호 검증)
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id, @RequestBody Map<String, String> body) {
         try {
             String password = body.get("password");
             int result = guestbookMapper.delete(id, password);

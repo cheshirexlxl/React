@@ -11,6 +11,9 @@ export const login = (username, password) => {
 // 회원 정보
 export const info = ()  => api.get('/users/profile')
 
+// 미니홈피 주인 공개 정보 조회 (username으로)
+export const getOwnerByUsername = (username) => api.get(`/users/${username}`)
+
 // 회원 정보 수정
 export const update = (data) => api.put('/users', data)
 

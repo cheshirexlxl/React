@@ -56,7 +56,7 @@ const LoginContextProvider = ({ children }) => {
         loginSetting(data)
 
         Swal.alert('로그인 성공', '메인 화면으로 이동합니다.', 'success',
-            () => navigate('/')
+            () => navigate(`/${data.username}`)
         )
     } catch (error) {
         Swal.alert('로그인 실패', '아이디 또는 비밀번호가 일치하지 않습니다.', 'error')
@@ -89,7 +89,7 @@ const LoginContextProvider = ({ children }) => {
   const logout = (force = false) => {
     if(force) {
       logoutSetting()
-      navigate('/')
+      navigate(`/${userInfo.username}/login`)
       return
     }
 
@@ -98,7 +98,7 @@ const LoginContextProvider = ({ children }) => {
         if( result.isConfirmed ) {
           Swal.alert('로그아웃 성공', '로그아웃 되었습니다.', 'success')
           logoutSetting()
-          navigate('/')
+          navigate(`/${userInfo.username}/login`)
         }
       }
     )

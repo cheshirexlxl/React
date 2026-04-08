@@ -9,8 +9,9 @@ const JoinForm = ({ join }) => {
         const password = form.password.value
         const nickname = form.nickname.value
         const email = form.email.value
+        const role = form.role.value
         const data = { 
-            username, password, nickname, email 
+            username, password, nickname, email, role
         }
         join( data )
     }
@@ -58,6 +59,13 @@ const JoinForm = ({ join }) => {
                         autoComplete='email'
                         required
                     />
+                </div>
+                <div>
+                    <label htmlFor="role">계정 유형</label>
+                    <select id="role" name="role" required>
+                        <option value="ROLE_ADMIN">미니홈피 주인 (ROLE_ADMIN)</option>
+                        <option value="ROLE_USER">일반 사용자 (ROLE_USER)</option>
+                    </select>
                 </div>
                 <button type="submit" className="btn btn--form btn-login">
                     가입하기

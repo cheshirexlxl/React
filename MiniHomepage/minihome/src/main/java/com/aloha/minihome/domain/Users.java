@@ -18,4 +18,6 @@ public class Users {
     private Date createdAt;
     private Date updatedAt;
     private List<UserAuth> authList;
+    // 회원가입 시 권한 선택용 (DB 컬럼 아님)
+    private String role;
 }

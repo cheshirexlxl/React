@@ -57,6 +57,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/login").permitAll()             // 로그인
             .requestMatchers(HttpMethod.POST, "/users").permitAll()             // 회원가입
             .requestMatchers(HttpMethod.GET,  "/users/profile").permitAll()
+            .requestMatchers(HttpMethod.GET,  "/users/{username}").permitAll()  // 미니홈피 주인 공개 조회
             .requestMatchers(HttpMethod.GET,  "/guestbook/**").permitAll()
             .requestMatchers(HttpMethod.POST, "/guestbook").permitAll()
             .requestMatchers(HttpMethod.DELETE, "/guestbook/**").permitAll()

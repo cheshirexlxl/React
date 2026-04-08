@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Save, Upload, Trash2 } from 'lucide-react';
+import { Save, Upload, Trash2, Asterisk } from 'lucide-react';
 import * as Swal from '../../apis/alert';
 import * as auth from '../../apis/auth';
 
@@ -111,7 +111,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
 
                         {/* 프로필 이미지 URL (옵션) */}
                         <div className="border-gray-200">
-                            <label htmlFor='profileImage' className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label htmlFor='profileImage' className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                 프로필 이미지 URL (선택사항)
                             </label>
                             <div className="flex items-center gap-2">
@@ -144,7 +144,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                         {/* 기본 정보 */}
                         <div className="space-y-4">
                             <div>
-                                <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="username" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     아이디
                                 </label>
                                 <input type="text" 
@@ -159,7 +159,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="createdAt" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="createdAt" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     가입일
                                 </label>
                                 <input
@@ -173,7 +173,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="password" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     비밀번호 (변경시에만 입력)
                                 </label>
                                 <input type="password" 
@@ -186,7 +186,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="passwordConfirm" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="passwordConfirm" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     비밀번호 확인
                                 </label>
                                 <input type="password" 
@@ -199,8 +199,9 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="nickname" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="nickname" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     닉네임
+                                    <Asterisk size={12} className="text-red-500" />
                                 </label>
                                 <input
                                     type="text"
@@ -214,8 +215,9 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="bio" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="bio" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     한줄 소개
+                                    <Asterisk size={12} className="text-red-500" />
                                 </label>
                                 <textarea
                                     id="bio"
@@ -229,8 +231,9 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="email" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     이메일
+                                    <Asterisk size={12} className="text-red-500" />
                                 </label>
                                 <input
                                     type="email"
@@ -244,8 +247,9 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                             </div>
 
                             <div>
-                                <label htmlFor="birthDate" className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label htmlFor="birthDate" className="flex items-center gap-1 text-sm font-semibold text-gray-700 mb-2">
                                     생일
+                                    <Asterisk size={12} className="text-red-500" />
                                 </label>
                                 <input
                                     type="date"

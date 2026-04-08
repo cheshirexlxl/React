@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Layout from '../components/common/Layout'
 import GuestbookForm from '../components/Guestbook/GuestbookForm'
 import GuestbookList from '../components/Guestbook/GuestbookList'
 import * as auth from '../apis/auth'
 import * as Swal from '../apis/alert'
+import useOwner from '../hooks/useOwner'
 
-const OWNER_ID = 5  // 홈 주인 ID (고정)
-const PAGE_SIZE = 5
+const PAGE_SIZE = 10
 
 const Guestbook = () => {
+  const { owner } = useOwner()
   const [list, setList] = useState([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(false)
 
   const fetchList = async (currentPage = 1) => {
+    if (!owner) return
     try {
-      const response = await auth.getGuestbook(OWNER_ID, currentPage, PAGE_SIZE)
+      const response = await auth.getGuestbook(owner.id, currentPage, PAGE_SIZE)
       const data = response.data
       if (currentPage === 1) {
         setList(data)
@@ -29,12 +32,12 @@ const Guestbook = () => {
   }
 
   useEffect(() => {
-    fetchList(1)
-  }, [])
+    if (owner) fetchList(1)
+  }, [owner])
 
   const handleCreate = async (form) => {
     try {
-      await auth.createGuestbook({ ...form, ownerId: OWNER_ID })
+      await auth.createGuestbook({ ...form, ownerId: owner.id })
       Swal.alert('등록 완료', '방명록이 등록되었습니다.', 'success', () => {
         setPage(1)
         fetchList(1)

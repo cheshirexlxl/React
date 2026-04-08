@@ -1,15 +1,16 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
-import { LogIn, LogOut } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 
 const LoginForm = () => {
 
     const { login } = useAuth()
+    const { username } = useParams()
 
     const onLogin = (e) => {
         e.preventDefault()
         const form = e.target
-        const username = 'admin'
         const password = form.password.value
         login(username, password)
     }

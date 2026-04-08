@@ -1,5 +1,6 @@
 package com.aloha.minihome.controller;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,19 +47,50 @@ public class UserController {
         }
         return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
+
+    // 미니홈피 주인 공개 정보 조회 (username으로 조회)
+    @GetMapping("/{username}")
+    public ResponseEntity<?> publicInfo(@PathVariable("username") String username) {
+        log.info("::::: public user info - username: {} :::::", username);
+        try {
+            Users user = userService.select(username);
+            if( user == null ) {
+                return new ResponseEntity<>("NOT_FOUND", HttpStatus.NOT_FOUND);
+            }
+            // ROLE_ADMIN 이 아닌 계정은 미니홈피 주인이 아님 → 404
+            boolean isAdmin = user.getAuthList() != null &&
+                user.getAuthList().stream().anyMatch(a -> "ROLE_ADMIN".equals(a.getAuth()));
+            if( !isAdmin ) {
+                return new ResponseEntity<>("NOT_FOUND", HttpStatus.NOT_FOUND);
+            }
+            user.setPassword(null);   // 비밀번호 제거
+            user.setAuthList(null);   // 권한 목록 제거
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("공개 유저 조회 실패", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @PostMapping("")
-    public ResponseEntity<?> join(@RequestBody Users user) throws Exception {
+    public ResponseEntity<?> join(@RequestBody Users user) {
         log.info("join request");
-        boolean result = userService.insert(user);
-
-        if( result ) {
-            log.info("join success!");
-            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-        }
-        else {
-            log.info("join fail!");
+        try {
+            boolean result = userService.insert(user);
+            if( result ) {
+                log.info("join success!");
+                return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+            }
             return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
+        } catch (DuplicateKeyException e) {
+            log.warn("join duplicate: {}", e.getMessage());
+            String msg = e.getMessage() != null && e.getMessage().contains("email")
+                ? "이미 사용 중인 이메일입니다."
+                : "이미 사용 중인 아이디입니다.";
+            return new ResponseEntity<>(msg, HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error("join error", e);
+            return new ResponseEntity<>("서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     

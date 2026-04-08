@@ -20,9 +20,9 @@ export const confirm = (title, text, icon, callback) => {
     text: text,
     icon: icon,
     showCancelButton: true,
-    cancelButtonColor: '#d33',
+    cancelButtonColor: '#e7ebf0',
     cancelButtonText: '취소',
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#4F46E5',
     confirmButtonText: '확인',
   })
   .then(callback)

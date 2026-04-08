@@ -32,9 +32,13 @@ public class UserServiceImpl implements UserService {
 
         // 권한 등록
         if( result > 0 ) {
+            // 전달된 role 사용, 없으면 기본 ROLE_USER
+            String auth = (user.getRole() != null && !user.getRole().isBlank())
+                ? user.getRole()
+                : "ROLE_USER";
             UserAuth userAuth = UserAuth.builder()
                                         .username(user.getUsername())
-                                        .auth("ROLE_USER")
+                                        .auth(auth)
                                         .build();
             result += userMapper.insertAuth(userAuth);
         }
