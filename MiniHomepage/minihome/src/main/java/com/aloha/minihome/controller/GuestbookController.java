@@ -45,6 +45,18 @@ public class GuestbookController {
         }
     }
 
+    // 방명록 전체 갯수 조회
+    @GetMapping("/{ownerId}/count")
+    public ResponseEntity<?> count(@PathVariable("ownerId") Long ownerId) {
+        try {
+            int count = guestbookMapper.countByOwnerId(ownerId);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("방명록 갯수 조회 실패", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // 방명록 작성
     @PostMapping("")
     public ResponseEntity<?> create(@RequestBody Guestbook guestbook) {

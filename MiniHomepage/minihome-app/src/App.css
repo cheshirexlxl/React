@@ -28,7 +28,7 @@ header .util li a {
 
 }
 header .util li a:hover {
-    background-color: oklch(98.5% 0.002 247.839);    
+    background-color: oklch(97% 0.002 247.839);    
 }
 header .util li a.active {
     color: white;
@@ -36,25 +36,12 @@ header .util li a.active {
     border-color: var(--primary-color);
 }
 
-.bg-primary {
-    background-color: var(--primary-color);
-}
-
-.btn-outline-primary {
-    background-color: var(--white-color);
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-}
-.btn-outline-dark {
-    background-color: var(--white-color);
-    border: 1px solid var(--dark-color);
-    color: var(--dark-color);
-}
-.btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: var(--white-color);
-}
-.btn-outline-dark:hover {
-    background-color: var(--dark-color);
-    color: var(--white-color);
+header .util li .point {
+    border: 1px solid #e2e2e2;
+    border-radius: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: .875rem;
 }

@@ -54,7 +54,7 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
     return (
         <div className='container-sm'>      
             <form className="login-form" onSubmit={ (e) => onUpdate(e) }>
-                <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center justify-between mb-5">
                     <h2 className="text-2xl font-bold text-gray-900">프로필 수정</h2>
                     <div className="flex gap-2">
                         <button
@@ -73,11 +73,11 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                         </button>
                     </div>
                 </div>
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
+                <div className="bg-white rounded-2xl p-8 shadow-sm">
                     <div className="space-y-6">
                         {/* 프로필 사진 */}
                         <div className="flex flex-col items-center pb-6 border-b border-gray-200">
-                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-200 to-blue-400 flex items-center justify-center text-5xl mb-4">
+                            <div className="w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center text-5xl mb-4">
                                 {(previewUrl || userInfo.profileImage) ? (
                                 <img
                                     src={previewUrl || userInfo.profileImage}

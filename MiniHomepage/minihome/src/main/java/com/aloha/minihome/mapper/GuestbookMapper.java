@@ -17,6 +17,9 @@ public interface GuestbookMapper {
         @Param("offset") int offset
     ) throws Exception;
 
+    // 방명록 전체 갯수 조회
+    public int countByOwnerId(@Param("ownerId") Long ownerId) throws Exception;
+
     // 방명록 단건 조회
     public Guestbook selectById(Long id) throws Exception;
 

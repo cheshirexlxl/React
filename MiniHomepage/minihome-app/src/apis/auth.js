@@ -33,6 +33,9 @@ export const uploadProfileImage = (file) => {
 export const getGuestbook = (ownerId, page, size = 10) =>
     api.get(`/guestbook/${ownerId}`, { params: { page, size } })
 
+// 방명록 전체 갯수
+export const getGuestbookCount = (ownerId) => api.get(`/guestbook/${ownerId}/count`)
+
 // 방명록 작성
 export const createGuestbook = (data) => api.post('/guestbook', data)
 

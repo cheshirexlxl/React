@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="nickname"  column="nickname" />
         <result property="password"  column="password" />
         <result property="content"   column="content" />
+        <result property="icon"      column="icon" />
         <result property="createdAt" column="created_at" />
     </resultMap>
 
@@ -22,6 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LIMIT #{size} OFFSET #{offset}
     </select>
 
+    <!-- 방명록 전체 갯수 조회 -->
+    <select id="countByOwnerId" resultType="int">
+        SELECT COUNT(*) FROM guestbook WHERE owner_id = #{ownerId}
+    </select>
+
     <!-- 방명록 단건 조회 -->
     <select id="selectById" resultMap="guestbookMap">
         SELECT * FROM guestbook WHERE id = #{id}
@@ -29,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 방명록 작성 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO guestbook (owner_id, nickname, password, content)
-        VALUES (#{ownerId}, #{nickname}, #{password}, #{content})
+        INSERT INTO guestbook (owner_id, nickname, password, content, icon)
+        VALUES (#{ownerId}, #{nickname}, #{password}, #{content}, #{icon})
     </insert>
 
     <!-- 방명록 삭제 (비밀번호 검증) -->

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, NavLink, useParams, useLocation } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import { House, LogOut, UserKey } from 'lucide-react'
 
 const Header = () => {
 
@@ -17,10 +18,10 @@ const Header = () => {
   const isOwner = isLogin && userInfo?.username === username
 
   return (
-    <header className="bg-white border-b border-gray-200 py-4 sticky top-0">
+    <header className="bg-white border-b border-gray-200 py-4 sticky top-0 z-50">
         <div className='container flex items-center justify-between'>
           <Link to={`/${owner}`} className="text-xl font-semibold text-gray-800 tracking-tight">
-            {!isJoinPage ? <><span className='text-2xl text-blue-700 font-extrabold'>{username}</span> <span className='font-normal'>MINI HOMPY</span></> : <span>MINI HOMPY</span>}
+            {!isJoinPage ? <><span className='text-2xl text-primary font-extrabold'>{username}</span> <span className='font-normal'>MINI HOMPY</span></> : <span>MINI HOMPY</span>}
           </Link>
           <div className="util">
             <ul className='flex gap-2'>
@@ -34,12 +35,12 @@ const Header = () => {
                   <>
                     { hasRole('ROLE_ADMIN') && <li><NavLink to={`/${owner}/room`}>방 꾸미기</NavLink></li> }
                     <li><NavLink to={`/${owner}/user`}>프로필 수정</NavLink></li>
-                    <li><Link onClick={ () => logout() }>로그아웃</Link></li>
+                    <li><Link onClick={ () => logout() } className='point'><LogOut size={16} /> 로그아웃</Link></li>
                   </>
                   :
                   <>
-                    { !isLogin && <li><NavLink to={`/${owner}/login`}>로그인</NavLink></li> }
-                    { isLogin && <li><NavLink to={`/${userInfo?.username}`}>내 미니홈피로 가기</NavLink></li> }
+                    { !isLogin && <li><NavLink to={`/${owner}/login`} className='point'><UserKey size={16} /> 로그인</NavLink></li> }
+                    { isLogin && <li><NavLink to={`/${userInfo?.username}`} className='point'><House size={16} /> 내 미니홈피로 가기</NavLink></li> }
                   </>
                 }
                 </> }

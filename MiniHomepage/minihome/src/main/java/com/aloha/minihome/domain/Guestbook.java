@@ -11,5 +11,6 @@ public class Guestbook {
     private String nickname;
     private String password;
     private String content;
+    private String icon;
     private LocalDateTime createdAt;
 }

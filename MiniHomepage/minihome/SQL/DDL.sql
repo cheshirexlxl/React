@@ -35,10 +35,13 @@ CREATE TABLE IF NOT EXISTS guestbook (
     nickname    VARCHAR(50)     NOT NULL,
     password    VARCHAR(255)    NOT NULL,
     content     TEXT            NOT NULL,
+    icon        VARCHAR(20)     NOT NULL DEFAULT 'cat', -- 프로필 아이콘 키
     created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+ALTER TABLE guestbook ADD COLUMN icon VARCHAR(20) NOT NULL DEFAULT 'cat' AFTER content;
 
 -- 룸 아이템 배치
 CREATE TABLE IF NOT EXISTS room_items (
